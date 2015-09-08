@@ -17,6 +17,13 @@ Matrix get := method(x, y,
 	at(y) at(x)
 )
 
+Matrix transpose := method(m,
+	t_matrix := Matrix clone
+	foreach(i, at(i), 
+		t_matrix append(map(row, row at(i)))
+	)
+)
+
 m := Matrix clone
 m dim(3,3)
 
@@ -25,3 +32,4 @@ m set(0,2,3)
 m set(1,2,7)
 
 m println
+m transpose println
