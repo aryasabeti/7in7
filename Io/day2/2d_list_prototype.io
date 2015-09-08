@@ -5,18 +5,23 @@
 Matrix := List clone
 
 Matrix dim := method(x, y,
-	for(rows, 1, y, self append(list))	
-	self map(for(cols, 1, x, append(0)))
+	for(rows, 1, y, append(list))
+	map(for(cols, 1, x, append(0)))
 )
 
 Matrix set := method(x, y, value,
-	self at(y) atPut(x, value)
+	at(y) atPut(x, value)
 )
 
 Matrix get := method(x, y,
-	self at(y) at(x)
+	at(y) at(x)
 )
 
-m := Matrix dim(3,3)
-m set(0,1,5)
-m get(0,1) println
+m := Matrix clone
+m dim(3,3)
+
+m set(0,0,5)
+m set(0,2,3)
+m set(1,2,7)
+
+m println
