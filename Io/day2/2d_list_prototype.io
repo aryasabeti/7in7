@@ -24,6 +24,29 @@ Matrix transpose := method(m,
 	)
 )
 
+Matrix writeFile := method(fileName,
+	f := File with(fileName)
+	f remove
+	f openForAppending
+	foreach(row, 
+		f write(row join(","))
+		f write("\n")
+	)
+	f close
+)
+
+Matrix readFile := method(fileName,
+	f := File with(fileName)
+	f openForReading
+	loop(
+		line := f readLine
+		if(line,
+			append(line split(",")),
+			return
+		)
+	)
+)
+
 m := Matrix clone
 m dim(3,3)
 
@@ -31,5 +54,19 @@ m set(0,0,5)
 m set(0,2,3)
 m set(1,2,7)
 
+"Matrix m:" println
 m println
+"" println
+
+"Matrix m transpose:" println
 m transpose println
+"" println
+
+"Writing matrix m to file." println
+m writeFile("mymatrix")
+"" println
+
+"Matrix m from file:" println
+n := Matrix clone
+n readFile("mymatrix")
+n println
