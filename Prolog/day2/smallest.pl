@@ -12,11 +12,4 @@ currMin(Smallest, Current, [H|T]) :-
 	H >= Current,
 	currMin(Smallest, Current, T).
 
-currMin(Smallest, Current, [H]) :-
-	H < Current,
-	Smallest is H.
-
-currMin(Smallest, Current, [H]) :-
-	H >= Current,
-	Smallest is Current.
-
+currMin(Smallest, Smallest, []).
