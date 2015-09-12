@@ -5,22 +5,8 @@ valid([Head|Tail]) :-
 	fd_all_different(Head),
 	valid(Tail).
 
-sudoku(Puzzle, Solution) :-
-	length(Puzzle, Length),
-	Length =:= 16,
-	sudoku4(Puzzle, Solution).
-
-sudoku(Puzzle, Solution) :-
-	length(Puzzle, Length),
-	Length =:= 36,
-	sudoku6(Puzzle, Solution).
-
-sudoku(Puzzle, Solution) :-
-	length(Puzzle, Length),
-	Length =:= 81,
-	sudoku9(Puzzle, Solution).
-
 sudoku4(Puzzle, Solution) :-
+
 	Solution = Puzzle,
 
 	Puzzle = [
@@ -49,7 +35,9 @@ sudoku4(Puzzle, Solution) :-
 	valid([
 		Row1, Row2, Row3, Row4,
 		Col1, Col2, Col3, Col4,
-		Square1, Square2, Square3, Square4]).
+		Square1, Square2, Square3, Square4]),
+
+	print_rows([Row1, Row2, Row3, Row4]).
 
 
 sudoku6(Puzzle, Solution) :-
@@ -89,22 +77,52 @@ sudoku6(Puzzle, Solution) :-
 	valid([
 		Row1, Row2, Row3, Row4, Row5, Row6,
 		Col1, Col2, Col3, Col4, Col5, Col6,
-		Square1, Square2, Square3, Square4, Square5, Square6]).
+		Square1, Square2, Square3, Square4, Square5, Square6]),
+
+	print_rows([Row1, Row2, Row3, Row4, Row5, Row6]).
 
 %you can imagine what sudoku9 looks like
 
-sudoku([
-	_,_,2,3,
-	_,_,_,_,
-	_,_,_,_,
-	3,4,_,_],
-	Solution).
 
-sudoku([
-	_,_,2,3,6,1,
-	_,_,_,_,_,_,
-	_,6,_,_,_,_,
-	3,4,_,_,_,5,
-	_,_,_,_,4,_,
-	_,1,_,_,_,_],
-	Solution).
+sudoku(Puzzle, Solution) :-
+	length(Puzzle, Length),
+	Length =:= 16,
+	sudoku4(Puzzle, Solution).
+
+sudoku(Puzzle, Solution) :-
+	length(Puzzle, Length),
+	Length =:= 36,
+	sudoku6(Puzzle, Solution).
+
+sudoku(Puzzle, Solution) :-
+	length(Puzzle, Length),
+	Length =:= 81,
+	sudoku9(Puzzle, Solution).
+
+print_rows([]) :-
+	nl.
+
+print_rows([Row|Tail]) :-
+	print(Row),
+	nl,
+	print_rows(Tail).
+
+test4 :-
+	Puzzle = [
+		_,_,2,3,
+		_,_,_,_,
+		_,_,_,_,
+		3,4,_,_],
+
+	sudoku(Puzzle, _).
+
+test6 :-
+	Puzzle = [
+		_,_,2,3,6,1,
+		_,_,_,_,_,_,
+		_,6,_,_,_,_,
+		3,4,_,_,_,5,
+		_,_,_,_,4,_,
+		_,1,_,_,_,_],
+		
+	sudoku(Puzzle, _).
