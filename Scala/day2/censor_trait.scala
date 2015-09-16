@@ -1,12 +1,16 @@
 import scala.language.implicitConversions
-
-val alts = Map("shit" -> "crap", "damn" -> "darn")
+import scala.io.Source
+import scala.collection.mutable.HashMap
 
 class ModeratedString(str: String) extends Censor {
+	import_alts("alts.txt")		// I acknowlege that this is non-design
+
 	def polite = censor(str)
 }
 
 trait Censor {
+	val alts = new HashMap[String, String]
+
 	def censor(raw_text: String) = {
 		val words = raw_text.split(" ")
 		val censored = words.map { w =>
@@ -16,6 +20,14 @@ trait Censor {
 			else w
 		}
 		censored.mkString(" ")
+	}
+
+	def import_alts(file_path: String) = {
+		for(line <- Source.fromFile("alts.txt").getLines()) { 
+			val parts = line.split(",")
+
+			alts += parts(0).trim -> parts(1).trim
+		}
 	}
 }
 
