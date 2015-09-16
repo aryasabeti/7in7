@@ -11,7 +11,11 @@ class TicTacToe(boardState: List[Int] = List()) {
 
 	def winner = {
 		// for first Scala program, use simplest possible (verbose) implementation and refactor
-		var wins = 'T'
+		var wins = 'N'
+
+		if(state.count(_ == 0) == 0) {
+			wins = 'T'
+		}
 
 		(0 until 3).foreach { n =>
 			var rowSum = state(n*3) + state(n*3+1) + state(n*3+2)
@@ -50,6 +54,16 @@ val test_games = List(
 		0, 0, 0),
 
 	List(
+		-1, 1, 1,
+		1, 0, -1,
+		-1, -1, 1),
+
+	List(
+		-1, 1, 1,
+		1, 1, -1,
+		-1, -1, 1),
+
+	List(
 		-1, -1, -1,
 		0, 0, 0,
 		0, 1, 1),
@@ -70,7 +84,7 @@ val test_games = List(
 		0, 0, 1)
 )
 
-val expected = List('T', 'O', 'X', '0', 'X')
+val expected = List('N', 'N', 'T', 'O', 'X', 'O', 'X')
 val results = test_games.map(g => 
 	new TicTacToe(g).winner)
 
