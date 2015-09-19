@@ -7,18 +7,31 @@
 %%  Visit http://www.pragmaticprogrammer.com/titles/btlang for more book information.
 %% ---
 
-%% Monitor the translate service and restart it should it die.
+%% 1. Monitor the translate service and restart it should it die.
+%% 2. Make the monitor process restart itself if it should die.
+%% 3. Make a monitor for the translate_monitor. If either monitor dies, restart it.
 
 -module(translate_monitor).
 -export([loop/0]).
+-export([init/0]).
+-export([init/1]).
+
+
+init() ->
+    process_flag(trap_exit, true),
+    io:format("Setting up monitor pair. Self Pid: ~p~n", [self()]),
+    spawn_monitor(fun() -> translate_monitor:init(self()) end),
+    loop().
+
+init(PidToMonitor) ->
+    process_flag(trap_exit, true),
+    io:format("Second monitor, monitoring ~p~n", [PidToMonitor]),
+    erlang:monitor(process, PidToMonitor),
+    loop().
+
 loop() ->
     process_flag(trap_exit, true),
     receive
-        % {monitor, Process} ->
-        %     link(Process),
-        %     io:format("Monitoring process.~n"),
-        %     loop();
-
         new -> 
             io:format("Creating + monitoring translate_service.~n"),
             register(translator, spawn_link(fun translate_service:loop/0)),
