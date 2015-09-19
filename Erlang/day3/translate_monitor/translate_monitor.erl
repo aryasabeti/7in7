@@ -19,8 +19,9 @@
 
 init() ->
     process_flag(trap_exit, true),
-    io:format("Setting up monitor pair. Self Pid: ~p~n", [self()]),
-    spawn_monitor(fun() -> translate_monitor:init(self()) end),
+    Self = self(),
+    io:format("Setting up monitor pair. Self Pid: ~p~n", [Self]),
+    spawn_monitor(fun() -> translate_monitor:init(Self) end),
     loop().
 
 init(PidToMonitor) ->
