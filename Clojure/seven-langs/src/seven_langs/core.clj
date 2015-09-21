@@ -10,8 +10,7 @@
 (defn collection-type
 	"shorthand for list, vector, map types."
 	[col]
-	({
-		clojure.lang.PersistentArrayMap :map
-		clojure.lang.PersistentList :list
-		clojure.lang.PersistentVector :vector
-	} (type col)))
+	(cond
+		(map? col) :map
+		(list? col) :list
+		(vector? col) :vector))
