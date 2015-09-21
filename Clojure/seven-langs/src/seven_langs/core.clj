@@ -14,3 +14,14 @@
 		(map? col) :map
 		(list? col) :list
 		(vector? col) :vector))
+
+;; Day 2
+
+; implement unless with an else condition using macros.
+
+(defmacro unless
+	[test success failure]
+	(list 'if (list 'not test) success failure))
+
+
+
