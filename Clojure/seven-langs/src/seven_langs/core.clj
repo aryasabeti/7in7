@@ -23,5 +23,15 @@
 	[test success failure]
 	(list 'if (list 'not test) success failure))
 
+; Write a type using defrecord that implements a protocol
+; Went down the rabbit hole of the Expression Problem . . .
 
+(defprotocol DoSport
+	"Do the sport!"
+	(do-sport [this] "sport to do"))
 
+(defrecord Athlete [fname lname age sport]
+	DoSport
+	(do-sport [this] (str (:sport this) "ing!")))
+
+(def usain (Athlete. "Usain" "Bolt" 29 "Sprint"))
